@@ -1,0 +1,29 @@
+---
+title: "Restaurants in Las Palmas de Gran Canaria"
+author: "Roberto Diaz Ortega"
+date: "27/6/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+```
+
+
+```{r}
+library("rjson")
+json_file <- "http://apirtod.laspalmasgc.es/api/rest/datasets/restaurantes.json"
+json_data <- fromJSON(paste(readLines(json_file), collapse=""))
+restaurants<- do.call(rbind.data.frame, json_data$resources)
+```
+```{r}
+library(leaflet)
+my_map<- leaflet(data = restaurants) %>%
+    setView(-15.435841, 28.127803, 13) %>%
+    addTiles() %>%
+    addMarkers(as.double(as.character(restaurants$geo.long)), as.double(as.character(restaurants$geo.lat)), popup = paste('<h4>', restaurants$dc.title, '</h4><p>',restaurants$dc.description,'</p><p>',restaurants$lpgc.horario,'</p><a href="',restaurants$lpgc.web,'">',restaurants$lpgc.web,'</a>'), label = as.character(restaurants$dc.title))
+my_map
+```
+
+
+
