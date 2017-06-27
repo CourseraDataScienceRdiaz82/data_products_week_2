@@ -21,9 +21,11 @@ library(leaflet)
 my_map<- leaflet(data = restaurants) %>%
     setView(-15.435841, 28.127803, 13) %>%
     addTiles() %>%
-    addMarkers(as.double(as.character(restaurants$geo.long)), as.double(as.character(restaurants$geo.lat)), popup = paste('<h4>', restaurants$dc.title, '</h4><p>',restaurants$dc.description,'</p><p>',restaurants$lpgc.horario,'</p><a href="',restaurants$lpgc.web,'">',restaurants$lpgc.web,'</a>'), label = as.character(restaurants$dc.title))
+    addMarkers(as.double(as.character(restaurants$geo.long)), as.double(as.character(restaurants$geo.lat)), popup = paste('<h4>', restaurants$dc.title, '</h4><p>',restaurants$dc.description,'</p><p>',restaurants$lpgc.horario,'</p><a href="http://',gsub(" ","",restaurants$lpgc.web),'" target="_blank">',gsub(" ","",restaurants$lpgc.web),'</a>',sep=""), label = as.character(restaurants$dc.title))
 my_map
 ```
+The data has been obtained from Las Palmas de Gran Canaria City Hall open data portal. 
 
+http://datosabiertos.laspalmasgc.es/
 
 
